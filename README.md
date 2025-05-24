@@ -22,38 +22,60 @@ I’ll keep working to improve this project — thank you!
 //////////////////////////////////////////////////////////////////
 
 
-✅ Requirements
+# ✅ Requirements
 To run VenomStrike - Malware Scanner, your system must meet the following requirements:
 
 Python 3.8 or higher installed and accessible from the command line.
-
 YARA command-line tool installed and properly configured in your system PATH. This is required for the scanner to perform rule-based malware detection using your .yara rules.
 
-🐧 Linux (Debian/Ubuntu-based):
-YARA can be installed easily using your system package manager:
+-------------------------------------------------------------------------------------------------------------------------------------
 
-sudo apt update
+# 🐧 Linux:
+Depending on your distribution, YARA can be installed using your package manager.
+
+Debian/Ubuntu-based:
+
+sudo apt update  
 sudo apt install yara
 
-To verify the installation:
+Fedora/Red Hat/CentOS:
 
-yara --version
-If the command returns the version number, you're good to go.
+sudo dnf install yara
 
-🪟 Windows:
-Download the YARA Windows binaries from the official GitHub repository:
-👉 https://github.com/VirusTotal/yara/releases
+Arch Linux/Manjaro:
 
-Extract the ZIP and copy the contents (including yara.exe) to a directory, for example:
-C:\YARA\
+sudo pacman -S yara
 
+openSUSE:
+
+sudo zypper install yara
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+# 🍎 macOS:
+Install YARA using Homebrew:
+
+brew install yara
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+# 🪟 Windows:
+Download the YARA Windows binaries from the official GitHub repository: https://github.com/VirusTotal/yara/releases
+Extract the ZIP and copy the contents (including yara.exe) to a directory, for example: C:\YARA\
 Add that directory to your system’s PATH:
-Open the Start menu and search for "Environment Variables".
-Click "Environment Variables…".
-Under "System Variables", find and edit the Path variable.
+
+Open the Start menu and search for "Environment Variables"
+
+Click "Environment Variables…"
+
+Under "System Variables", find and edit the Path variable
+
 Add a new entry: C:\YARA\
 
-Open cmd and test it with:
+------------------------------------------------------------------------------------------------------------------------------------
+
+## To verify the installation, run:
 
 yara --version
-You should see the version number printed if everything is set up correctly.
+
+If it returns the version number, you’re good to go.
