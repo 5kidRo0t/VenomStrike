@@ -22,7 +22,7 @@ I’ll keep working to improve this project — thank you!
 //////////////////////////////////////////////////////////////////
 
 
-# ✅ Requirements
+## ✅ Requirements
 To run VenomStrike - Malware Scanner, your system must meet the following requirements:
 
 Python 3.8 or higher installed and accessible from the command line.
@@ -30,36 +30,36 @@ YARA command-line tool installed and properly configured in your system PATH. Th
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
-# 🐧 Linux:
+## 🐧 Linux:
 Depending on your distribution, YARA can be installed using your package manager.
 
-Debian/Ubuntu-based:
+### Debian/Ubuntu-based:
 
 sudo apt update  
 sudo apt install yara
 
-Fedora/Red Hat/CentOS:
+### Fedora/Red Hat/CentOS:
 
 sudo dnf install yara
 
-Arch Linux/Manjaro:
+### Arch Linux/Manjaro:
 
 sudo pacman -S yara
 
-openSUSE:
+### openSUSE:
 
 sudo zypper install yara
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
-# 🍎 macOS:
+## 🍎 macOS:
 Install YARA using Homebrew:
 
 brew install yara
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
-# 🪟 Windows:
+## 🪟 Windows:
 Download the YARA Windows binaries from the official GitHub repository: https://github.com/VirusTotal/yara/releases
 Extract the ZIP and copy the contents (including yara.exe) to a directory, for example: C:\YARA\
 Add that directory to your system’s PATH:
