@@ -19,6 +19,7 @@ import shutil
 import tempfile
 import urllib.request
 import zipfile
+import platform
 from io import BytesIO
 import sys
 
