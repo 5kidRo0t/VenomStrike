@@ -22,6 +22,7 @@ import zipfile
 from io import BytesIO
 import sys
 
+show_me = "VenomStrike - Malware Scanner by 5kidRo0t ver. 0.2\n"
 def download_and_extract_zip(repo_url):
     try:
         print("[*] Downloading latest version...")
@@ -77,6 +78,10 @@ def main():
         print("[*] Update cancelled.")
         sys.exit(0)
 
+def clean_screen():
+    cleaning = "cls" if platform.system() == "Windows" else "clear"
+    subprocess.call(cleaning, shell=True)
+
     repo_zip_url = "https://github.com/5kidRo0t/VenomStrike/archive/refs/heads/main.zip"
     current_dir = os.path.dirname(os.path.abspath(__file__))
     updater_name = os.path.basename(__file__)
@@ -88,4 +93,6 @@ def main():
     shutil.rmtree(temp_dir, ignore_errors=True)
 
 if __name__ == "__main__":
+    clean_screen()
+    print(show_me)
     main()
