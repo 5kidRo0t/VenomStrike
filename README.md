@@ -9,15 +9,11 @@
 //////////////////////////////////////////////////////////////////
 
 La versión 0.2 trae mejoras y arregla problemas con respecto a la versión 0.1, ahora si no dispones del archivo full_sha256.txt el script te preguntará
-si quieres descargarlo, además he añadido una opción para actualizar la herramienta usando el script venom_update, ejemplo: *python3 venom_update.py*,
-aún tengo que testear que funcione bien por eso te recomiendo no usar el script venom_update.py en esta versión de la herramienta, seguiré trabajando en mejorar
-esta herramienta, gracias.
+si quieres descargarlo, además he añadido una opción para actualizar la herramienta usando el script venom_update, ejemplo: *python3 venom_update.py*
 
 Version 0.2 brings improvements and fixes issues from version 0.1.
 Now, if the full_sha256.txt file is missing, the script will ask if you want to download it.
 I've also added an option to update the tool using the venom_update script, example: *python3 venom_update.py*
-However, I still need to test it thoroughly, so I recommend not using the venom_update.py script in this version of the tool.
-I’ll keep working to improve this project — thank you!
 
 //////////////////////////////////////////////////////////////////
 
