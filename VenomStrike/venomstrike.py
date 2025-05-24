@@ -25,9 +25,7 @@ def download_and_extract_sha256(dest_folder):
     try:
         response = requests.get(url)
         response.raise_for_status()
-        # The content comes as a ZIP, so we decompress it in memory
         with zipfile.ZipFile(BytesIO(response.content)) as z:
-            # Extract the full_sha256.txt file into the destination folder
             z.extract("full_sha256.txt", path=dest_folder)
         print(f"File downloaded and extracted to {dest_folder}\n ")
         time.sleep(5)
@@ -93,7 +91,6 @@ def load_hashes(path):
             return set(line.strip().lower() for line in f if line.strip())
     except IOError as e:
         download_and_extract_sha256(os.path.dirname(path))
-        # After download, try loading again
         with open(path, 'r') as f:
             return set(line.strip().lower() for line in f if line.strip())
 
