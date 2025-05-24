@@ -4,10 +4,7 @@ import hashlib
 import subprocess
 import platform
 import time
-import shutil
-import tempfile
 import requests
-import urllib.request
 import zipfile
 import io
 from io import BytesIO
@@ -34,52 +31,12 @@ def download_and_extract_sha256(dest_folder):
             z.extract("full_sha256.txt", path=dest_folder)
         print(f"File downloaded and extracted to {dest_folder}\n ")
         time.sleep(5)
+        clean_screen()
+        print(show_me)
     except Exception as e:
         print(f"[Error] Could not download or extract the file: {e}")
         sys.exit(1)
 
-def update_script():
-    print("[!] WARNING: This update will overwrite existing files.")
-    confirm = input("Do you want to continue? [y/N]: ").strip().lower()
-    if confirm != 'y':
-        print("[*] Update cancelled.")
-        sys.exit(0)
-    print("[*] Downloading latest version...")
-    repo_url = "https://github.com/5kidRo0t/VenomStrike/archive/refs/heads/main.zip"
-
-    try:
-        with urllib.request.urlopen(repo_url) as response:
-            with zipfile.ZipFile(io.BytesIO(response.read())) as zip_file:
-                temp_dir = tempfile.mkdtemp()
-                zip_file.extractall(temp_dir)
-
-                extracted_folder = os.path.join(temp_dir, "VenomStrike-main")
-                current_dir = os.path.dirname(os.path.abspath(__file__))
-
-                print("[*] Replacing current files...")
-
-                for item in os.listdir(current_dir):
-                    if item not in ["venomstrike.py", "__pycache__"]:  # keep the updater alive during overwrite
-                        item_path = os.path.join(current_dir, item)
-                        if os.path.isfile(item_path) or os.path.islink(item_path):
-                            os.remove(item_path)
-                        elif os.path.isdir(item_path):
-                            shutil.rmtree(item_path)
-
-                for item in os.listdir(extracted_folder):
-                    src = os.path.join(extracted_folder, item)
-                    dst = os.path.join(current_dir, item)
-                    if os.path.isdir(src):
-                        shutil.copytree(src, dst)
-                    else:
-                        shutil.copy2(src, dst)
-
-                print("[+] Update completed successfully.")
-                sys.exit(0)
-
-    except Exception as e:
-        print(f"[Error] Update failed: {e}")
-        sys.exit(1)
 
 def scan_with_yara_binary(yara_rules_folder, target_file):
     matches = []
@@ -172,9 +129,6 @@ def main():
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         show_help()
-
-    if sys.argv[1].lower() == "update":
-        update_script()
     clean_screen()
     print(show_me)
     main()
