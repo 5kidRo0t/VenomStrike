@@ -71,6 +71,8 @@ def scanning_animation(file_path):
     print("done!")
 
 def show_help():
+    clean_screen()
+    print(show_me)
     print(f"Usage: python3 venomstrike.py [file path]\nExample: python3 venomstrike.py suspicious_file.exe")
     sys.exit(0)
 
@@ -102,7 +104,8 @@ def main():
     file_path = sys.argv[1]
 
     if not os.path.isfile(file_path):
-        print(f"[Error] File '{file_path}' does not exist or was not found.")
+        print(f"[Error] File '{file_path}' does not exist or was not found.\n")
+        print(f"Usage: python3 venomstrike.py [file path]\nExample: python3 venomstrike.py suspicious_file.exe")
         sys.exit(1)
 
     file_hash = calculate_sha256(file_path)
