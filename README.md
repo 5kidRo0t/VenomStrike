@@ -1,4 +1,10 @@
-VenomStrike by 5kidRo0t ver. 0.2
+<p align="center">
+  <img src="https://media.giphy.com/media/YRDuN32tiOevbMTNMK/giphy.gif?cid=ecf05e479otb19ifyhrsabvn4sfkl9m6g8jjdgto7vdz2zmj&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="400" />
+</p>
+
+<br>
+
+# VenomStrike by 5kidRo0t ver. 0.2 🏴‍☠️
 
 //////////////////////////////////////////////////////////////////
 
