@@ -110,7 +110,7 @@ def main():
 
     print(f"[*] SHA-256: {file_hash}")
 
-    yara_rules_folder = os.path.join(script, "modules/yara_skido/")
+    yara_rules_folder = os.path.join(script, "modules/yar_rules/")
     yara_matches = scan_with_yara_binary(yara_rules_folder, file_path)
     scanning_animation(file_path)
 
