@@ -1,18 +1,17 @@
-VenomStrike by 5kidRo0t ver. 0.1
+VenomStrike by 5kidRo0t ver. 0.2
 
 //////////////////////////////////////////////////////////////////
 
-La herramienta aún no se puede usar porque falta la base de datos de MalwareBazaar, si quieres puedes descargar la base de datos SHA-256 tu mismo
-en la siguiente dirección >> https://bazaar.abuse.ch/export
+La versión 0.2 trae mejoras y arregla problemas con respecto a la versión 0.1, ahora si no dispones del archivo full_sha256.txt el script te preguntará
+si quieres descargarlo, además he añadido una opción para actualizar la herramienta usando el script venom_update, ejemplo: python3 venom_update.py,
+aún tengo que testear que funcione bien por eso te recomiendo no usar el script venom_update.py en esta versión de la herramienta, seguiré trabajando en mejorar
+esta herramienta, gracias.
 
-IMPORTANTE descarga solo >> ""SHA256 hashes: Full data dump ( download - zip compressed) Plain Text"" y deja el archivo full_sha256.txt en la carpeta modules con eso
-debería funcionar sin problemas, más adelante ya arreglaré esto mismo.
-
-
-The tool is still unusable because the MalwareBazaar database is missing. If you want, you can download the SHA-256 database yourself at the following address: >> https://bazaar.abuse.ch/export
-
-IMPORTANT: Download only >> "SHA256 hashes: Full data dump (download - zip compressed) Plain Text" and leave the full_sha256.txt file in the modules folder.
-It should work without any problems. I'll fix this later.
+Version 0.2 brings improvements and fixes issues from version 0.1.
+Now, if the full_sha256.txt file is missing, the script will ask if you want to download it.
+I've also added an option to update the tool using the venom_update script, example: python3 venom_update.py
+However, I still need to test it thoroughly, so I recommend not using the venom_update.py script in this version of the tool.
+I’ll keep working to improve this project — thank you!
 
 //////////////////////////////////////////////////////////////////
 
@@ -52,5 +51,3 @@ Open cmd and test it with:
 
 yara --version
 You should see the version number printed if everything is set up correctly.
-
-
