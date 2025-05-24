@@ -73,16 +73,16 @@ def update_files(temp_dir, current_dir, exclude_file):
 
     print("[+] Update completed successfully.")
 
+def clean_screen():
+    cleaning = "cls" if platform.system() == "Windows" else "clear"
+    subprocess.call(cleaning, shell=True)
+
 def main():
     print("[!] WARNING: This update will overwrite existing files.")
     confirm = input("Do you want to continue? [y/N]: ").strip().lower()
     if confirm != 'y':
         print("[*] Update cancelled.")
         sys.exit(0)
-
-def clean_screen():
-    cleaning = "cls" if platform.system() == "Windows" else "clear"
-    subprocess.call(cleaning, shell=True)
 
     repo_zip_url = "https://github.com/5kidRo0t/VenomStrike/archive/refs/heads/main.zip"
     current_dir = os.path.dirname(os.path.abspath(__file__))
