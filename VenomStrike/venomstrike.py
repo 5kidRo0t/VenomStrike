@@ -6,14 +6,36 @@ import platform
 import time
 import shutil
 import tempfile
+import requests
 import urllib.request
 import zipfile
-import io
+from io import BytesIO
 
 
-show_me = "VenomStrike - Malware Scanner by 5kidRo0t ver. 0.1\n"
+show_me = "VenomStrike - Malware Scanner by 5kidRo0t ver. 0.2\n"
 script = os.path.dirname(os.path.abspath(__file__))
-hashes_file = os.path.join(script, "modules/Malware_detection/full_sha256.txt")
+hashes_file = os.path.join(script, "modules/full_sha256.txt")
+
+def download_and_extract_sha256(dest_folder):
+    url = "https://bazaar.abuse.ch/export/txt/sha256/full/"
+    print("The full_sha256.txt file was not found.")
+    answer = input("Do you want to download it now so the tool can work properly? (y/n): ").strip().lower()
+    if answer != 'y':
+        print("The file was not downloaded. The tool will not work properly.")
+        sys.exit(1)
+    print("Downloading the file, please wait...")
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        # The content comes as a ZIP, so we decompress it in memory
+        with zipfile.ZipFile(BytesIO(response.content)) as z:
+            # Extract the full_sha256.txt file into the destination folder
+            z.extract("full_sha256.txt", path=dest_folder)
+        print(f"File downloaded and extracted to {dest_folder}\n ")
+        time.sleep(5)
+    except Exception as e:
+        print(f"[Error] Could not download or extract the file: {e}")
+        sys.exit(1)
 
 def update_script():
     print("[!] WARNING: This update will overwrite existing files.")
@@ -21,10 +43,8 @@ def update_script():
     if confirm != 'y':
         print("[*] Update cancelled.")
         sys.exit(0)
-
     print("[*] Downloading latest version...")
-
-    repo_url = "https://github.com/5kidro0t/VenomStrike/modules/malware_hashes.rar"
+    repo_url = "https://github.com/5kidRo0t/VenomStrike/archive/refs/heads/main.zip"
 
     try:
         with urllib.request.urlopen(repo_url) as response:
@@ -93,7 +113,6 @@ def scanning_animation(file_path):
     print("done!")
 
 def show_help():
-    print(show_me)
     print(f"Usage: python3 venomstrike.py [file path]\nExample: python3 venomstrike.py suspicious_file.exe")
     sys.exit(0)
 
@@ -113,8 +132,10 @@ def load_hashes(path):
         with open(path, 'r') as f:
             return set(line.strip().lower() for line in f if line.strip())
     except IOError as e:
-        print(f"[Error] Failed to open or read the hash file '{path}': {e}")
-        sys.exit(1)
+        download_and_extract_sha256(os.path.dirname(path))
+        # After download, try loading again
+        with open(path, 'r') as f:
+            return set(line.strip().lower() for line in f if line.strip())
 
 def main():
     if len(sys.argv) != 2:
@@ -123,14 +144,12 @@ def main():
     file_path = sys.argv[1]
 
     if not os.path.isfile(file_path):
-        print(show_me)
         print(f"[Error] File '{file_path}' does not exist or was not found.")
         sys.exit(1)
 
     file_hash = calculate_sha256(file_path)
     malicious_hashes = load_hashes(hashes_file)
 
-    print(show_me)
     print(f"[*] SHA-256: {file_hash}")
 
     yara_rules_folder = os.path.join(script, "modules/yara_skido/")
@@ -156,4 +175,5 @@ if __name__ == "__main__":
     if sys.argv[1].lower() == "update":
         update_script()
     clean_screen()
+    print(show_me)
     main()
