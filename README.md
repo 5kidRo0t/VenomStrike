@@ -12,7 +12,9 @@ La versión 0.3 ya está lista y trae nuevas mejoras como una renovación en el 
 que se incluirán además en los análisis para una mayor rigurosidad, decir también que ya podéis usar vuestras propias reglas yara tanto si están en .yar como .yara
 simplemente deben dejar sus reglas yara en la carpeta /modules/yar_rules/
 
-Version 0.3 is now ready and includes new improvements such as a redesign of the tool’s appearance. I have also implemented automatic downloading of MD5 hashes, which will be included in the analyses for greater accuracy. Additionally, you can now use your own YARA rules, whether in .yar or .yara format — just place your YARA rules in the /modules/yar_rules/ folder.
+Version 0.3 is now ready and includes new improvements such as a redesign of the tool’s appearance. 
+I have also implemented automatic downloading of MD5 hashes, which will be included in the analyses for greater accuracy. 
+Additionally, you can now use your own YARA rules, whether in .yar or .yara format — just place your YARA rules in the /modules/yar_rules/ folder.
 
 ![Captura desde 2025-05-25 10-49-30](https://github.com/user-attachments/assets/7cbb0081-7b56-4e96-9f79-8d65865ece22)
 
