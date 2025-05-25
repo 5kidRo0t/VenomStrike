@@ -51,14 +51,6 @@ def parse_args():
 
 def download_and_extract_md5(dest_folder):
     url = "https://bazaar.abuse.ch/export/txt/md5/full/"
-    print("The full_md5.txt file was not found.")
-    answer = input("Do you want to download the optional MD5 hash database? (y/n): ").strip().lower()
-    if answer != 'y':
-        print("The file was not downloaded.")
-        with open(md5_flag, 'w') as f:
-                f.write("User Declined MD5 download.\n")
-        sys.exit(1)
-
     stop_event = threading.Event()
     loader_thread = threading.Thread(target=downloading_animation, args=(stop_event,))
     loader_thread.start()
@@ -240,6 +232,7 @@ def main():
     file_hash = calculate_sha256(file_path)
 
     if not os.path.exists(hashes_file_2) and not use_md5 and not os.path.exists(md5_flag):
+        print("The full_md5.txt file was not found.")
         answer = input("Do you want to download the optional MD5 hash database? (y/n): ").strip().lower()
         if answer == 'y':
             download_and_extract_md5(os.path.dirname(hashes_file_2))
