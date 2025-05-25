@@ -24,19 +24,39 @@ import time
 import requests
 import zipfile
 import io
+import argparse
 from io import BytesIO
 
-show_me = "▗▖  ▗▖▗▞▀▚▖▄▄▄▄   ▄▄▄  ▄▄▄▄   ▗▄▄▖ ■   ▄▄▄ ▄ █  ▄ ▗▞▀▚▖    \n▐▌  ▐▌▐▛▀▀▘█   █ █   █ █ █ █ ▐▌ ▗▄▟▙▄▖█    ▄ █▄▀  ▐▛▀▀▘    \n▐▌  ▐▌▝▚▄▄▖█   █ ▀▄▄▄▀ █   █  ▝▀▚▖▐▌  █    █ █ ▀▄ ▝▚▄▄▖    \n ▝▚▞▘                        ▗▄▄▞▘▐▌       █ █  █          \n                                  ▐▌                       \n----------------------------------------------------------\nVenomStrike - Malware Scanner by 5kidRo0t ver. 0.3\n----------------------------------------------------------\n"
+show_me = "▗▖  ▗▖▗▞▀▚▖▄▄▄▄   ▄▄▄  ▄▄▄▄   ▗▄▄▖ ■   ▄▄▄ ▄ █  ▄ ▗▞▀▚▖    \n▐▌  ▐▌▐▛▀▀▘█   █ █   █ █ █ █ ▐▌ ▗▄▟▙▄▖█    ▄ █▄▀  ▐▛▀▀▘    \n▐▌  ▐▌▝▚▄▄▖█   █ ▀▄▄▄▀ █   █  ▝▀▚▖▐▌  █    █ █ ▀▄ ▝▚▄▄▖    \n ▝▚▞▘                        ▗▄▄▞▘▐▌       █ █  █          \n                                  ▐▌                       \n----------------------------------------------------------\nVenomStrike - Malware Scanner by 5kidRo0t ver. 0.5\n----------------------------------------------------------\n"
 script = os.path.dirname(os.path.abspath(__file__))
 hashes_file = os.path.join(script, "modules/full_sha256.txt")
 hashes_file_2 = os.path.join(script, "modules/full_md5.txt")
+md5_flag = os.path.join(script, ".md5_prompted.flag")
+
+class CustomArgumentParser(argparse.ArgumentParser):
+    def error(self, message):
+        clean_screen()
+        print(show_me)
+        print(f"[ERROR] {message}\n")
+        self.print_help()
+        print("\nExaple: python3 venomstrike.py suspicious.exe")
+        sys.exit(2)
+
+def parse_args():
+    parser = CustomArgumentParser(description="VenomStrike - Malware Scanner")
+    parser.add_argument("file", nargs="?", help="Path to the file to scan")  # <-- faltaba una coma aquí
+    parser.add_argument("-md5", action="store_true", help="Download and use optional MD5 hash check")
+    parser.add_argument("-update", action="store_true", help="Force re-download of hash databases")
+    return parser.parse_args()
 
 def download_and_extract_md5(dest_folder):
     url = "https://bazaar.abuse.ch/export/txt/md5/full/"
     print("The full_md5.txt file was not found.")
-    answer = input("Do you want to download it now so the tool can work properly? (y/n): ").strip().lower()
+    answer = input("Do you want to download the optional MD5 hash database? (y/n): ").strip().lower()
     if answer != 'y':
-        print("The file was not downloaded. The tool will not work properly.")
+        print("The file was not downloaded.")
+        with open(md5_flag, 'w') as f:
+                f.write("User Declined MD5 download.\n")
         sys.exit(1)
 
     stop_event = threading.Event()
@@ -119,7 +139,7 @@ def scanning_animation(file_path):
     for _ in range(6):
         time.sleep(0.5)
         print(".", end="", flush=True)
-    print("done!\n")
+    print("done!\n \n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
 def downloading_animation(stop_event):
     chars ="|/-\\"
@@ -132,7 +152,10 @@ def downloading_animation(stop_event):
 
 def show_help():
     clean_screen()
-    print(show_me)
+    print(f"Usage: python3 venomstrike.py [file path]\nExample: python3 venomstrike.py suspicious_file.exe")
+    sys.exit(0)
+
+def show_help_2():
     print(f"Usage: python3 venomstrike.py [file path]\nExample: python3 venomstrike.py suspicious_file.exe")
     sys.exit(0)
 
@@ -177,23 +200,64 @@ def load_hashes_2(path):
             return set(line.strip().lower() for line in f if line.strip())
 
 def main():
-    if len(sys.argv) != 2:
-        show_help()
+    args = parse_args()
+    file_path = args.file
+    use_md5 = args.md5
+    force_update = args.update
 
-    file_path = sys.argv[1]
+    if force_update and not file_path:
+        for f in [hashes_file, hashes_file_2, md5_flag]:
+            if os.path.exists(f):
+                os.remove(f)
+        print("[*] Hash databases deleted for update.")
+        download_and_extract_sha256(os.path.dirname(hashes_file))
+        download_and_extract_md5(os.path.dirname(hashes_file_2))
+        sys.exit(0)
+
+    if use_md5 and not file_path:
+        download_and_extract_md5(os.path.dirname(hashes_file_2))
+        sys.exit(0)
+
+    if not file_path:
+        print("[Error] No file was provided.\n")
+        show_help_2()
+        sys.exit(1)
 
     if not os.path.isfile(file_path):
         print(f"[Error] File '{file_path}' does not exist or was not found.\n")
-        print(f"Usage: python3 venomstrike.py [file path]\nExample: python3 venomstrike.py suspicious_file.exe")
+        show_help_2()
         sys.exit(1)
 
-    file_hash = calculate_sha256(file_path)
-    file_hash_2 = calculate_md5(file_path)
+    if force_update:
+        for f in [hashes_file, hashes_file_2, md5_flag]:
+            if os.path.exists(f):
+                os.remove(f)
+        print("[*] Hash databases and MD5 prompt flag deleted for update.")
+
+    if not os.path.exists(hashes_file):
+        download_and_extract_sha256(os.path.dirname(hashes_file))
     malicious_hashes = load_hashes(hashes_file)
-    malicious_hashes_2 = load_hashes_2(hashes_file_2)
+    file_hash = calculate_sha256(file_path)
+
+    if not os.path.exists(hashes_file_2) and not use_md5 and not os.path.exists(md5_flag):
+        answer = input("Do you want to download the optional MD5 hash database? (y/n): ").strip().lower()
+        if answer == 'y':
+            download_and_extract_md5(os.path.dirname(hashes_file_2))
+        else:
+            with open(md5_flag, 'w') as f:
+                f.write("User Declined MD5 download.\n")
+
+    file_hash_md5 = None
+    malicious_hashes_md5 = set()
+    if os.path.exists(hashes_file_2):
+        file_hash_md5 = calculate_md5(file_path)
+        malicious_hashes_md5 = load_hashes_2(hashes_file_2)
 
     print(f"[*] SHA-256: {file_hash}")
-    print(f"[*] MD5: {file_hash_2}")
+    if file_hash_md5:
+        print(f"[*] MD5: {file_hash_md5}")
+    else:
+        print("[*] MD5 check skipped (hash database not present)\nYou can download it with: python3 venomstrike.py -md5\n")
 
     yara_rules_folder = os.path.join(script, "modules/yar_rules/")
     yara_matches = scan_with_yara_binary(yara_rules_folder, file_path)
@@ -209,14 +273,13 @@ def main():
         print(f"[!] Match found by SHA-256 hash: {file_hash}")
     else:
         print(f"[+] No match found by SHA-256")
-    if file_hash_2 in malicious_hashes_2:
-        print(f"[!] Match found by MD5 hash: {file_hash_2}")
-    else:
-        print(f"[+] No match found by MD5")
+    if file_hash_md5:
+        if file_hash_md5 in malicious_hashes_md5:
+            print(f"[!] Match found by MD5 hash: {file_hash_md5}")
+        else:
+            print(f"[+] No match found by MD5")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        show_help()
     clean_screen()
     print(show_me)
     main()

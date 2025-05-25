@@ -1,10 +1,56 @@
-# VenomStrike by 5kidRo0t ver. 0.3
+# VenomStrike by 5kidRo0t ver. 0.5
 
 //////////////////////////////////////////////////////////////////
 
-La versión 0.3 ya está lista y trae nuevas mejoras como una renovación en el aspecto de la herramienta, también he implementado la descarga automática de hashes MD5 que se incluirán además en los análisis para una mayor rigurosidad, decir también que ya podéis usar vuestras propias reglas yara tanto si están en .yar como .yara simplemente deben dejar sus reglas yara en la carpeta /modules/yar_rules/, por último he añadido algunas animaciones durante la descarga de los hashes debido a que si no parecía que el script estaba congelado. Gracias.
+🇪🇸 [Español]
+La versión 0.5 ya está disponible.
+Ya no es obligatorio descargar la base de datos de hashes MD5 para usar la herramienta, aunque los hashes SHA256 siguen siendo necesarios para que el script funcione correctamente.
 
-Version 0.3 is now ready and includes new improvements such as a redesign of the tool’s appearance. I have also implemented automatic downloading of MD5 hashes, which will be included in the analyses for greater accuracy. Additionally, you can now use your own YARA rules, whether in .yar or .yara format — just place your YARA rules in the /modules/yar_rules/ folder, finally, I added some animations during the hash download because otherwise it looked like the script was frozen. Thanks.
+La herramienta puede seguir actualizándose ejecutando el script venom_update.py, pero ahora también puedes actualizar las bases de datos de hashes SHA256 y MD5 usando el parámetro -update (ejemplo:
+python3 venomstrike.py -update).
+
+Si en algún momento decidiste no descargar los hashes MD5, puedes hacerlo más adelante con el parámetro -md5 (ejemplo:
+python3 venomstrike.py -md5).
+
+Sigo trabajando para mejorar esta herramienta y hacerla lo más sencilla posible de usar.
+Si tienes cualquier duda o problema, no dudes en escribirme a:
+📩 skidoroot@gmail.com
+
+Por ahora, la herramienta funciona correctamente mientras no se la fuerce a fallar.
+En caso de que ocurra un problema grave, puedes solucionarlo ejecutando el script venom_update.py (ejemplo:
+python3 venom_update.py), el cual reemplazará todos los archivos descargándolos directamente desde mi repositorio oficial.
+Este proceso es seguro y puede ayudarte a recuperar la herramienta si sufre un fallo.
+
+Aún no he probado VenomStrike en Windows, macOS ni en distribuciones GNU/Linux que no estén basadas en Debian.
+Si tienes inconvenientes al ejecutar el script, por favor contáctame.
+
+Gracias por usar VenomStrike.
+
+
+🇬🇧 [English]
+Version 0.5 is now available.
+Downloading the MD5 hashes is no longer mandatory to use the tool, although SHA256 hashes are still required for the script to function properly.
+
+The tool can still be updated by running the venom_update.py script, but now there's also an option to update both SHA256 and MD5 hash databases using the -update parameter (example:
+python3 venomstrike.py -update).
+
+If you chose not to download the MD5 hashes at first, you can still do it anytime using the -md5 parameter (example:
+python3 venomstrike.py -md5).
+
+I'm constantly working on improving this tool to make it easier to use.
+If you have any questions or issues, feel free to contact me at:
+📩 skidoroot@gmail.com
+
+So far, the tool seems to work fine as long as it's not forced into an error state.
+If you run into any serious problems, you can fix them by executing the venom_update.py script (example:
+python3 venom_update.py), which will replace all files by downloading them from my official repository.
+It’s safe to use this script in case VenomStrike crashes.
+
+I haven’t tested the tool yet on Windows, macOS, or non-Debian-based GNU/Linux distributions.
+If you experience any issues while trying to run the script, please don’t hesitate to contact me.
+
+Thanks for using VenomStrike!
+
 
 //////////////////////////////////////////////////////////////////
 
