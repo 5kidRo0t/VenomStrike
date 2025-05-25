@@ -9,8 +9,8 @@
 //////////////////////////////////////////////////////////////////
 
 La versión 0.3 ya está lista y trae nuevas mejoras como una renovación en el aspecto de la herramienta, también he implementado la descarga automática de hashes MD5
-que se incluirán además en los análisis para una mayor rigurosidad, decir también que ya podéis usar vuestras propias reglas yara tanto si están en .yar como .yara
-simplemente deben dejar sus reglas yara en la carpeta /modules/yar_rules/, por último he añadido algunas animaciones durante la descarga de los hashes debido
+que se incluirán además en los análisis para una mayor rigurosidad, decir también que ya podéis usar vuestras propias reglas YARA tanto si están en .yar como .yara
+simplemente debéis dejar vuestras reglas YARA en la carpeta /modules/yar_rules/, por último he añadido algunas animaciones durante la descarga de los hashes debido
 a que si no parecía que el script estaba congelado. Gracias.
 
 Version 0.3 is now ready and includes new improvements such as a redesign of the tool’s appearance. 
