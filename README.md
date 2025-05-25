@@ -4,20 +4,17 @@
 
 <br>
 
-# VenomStrike by 5kidRo0t ver. 0.2 🏴‍☠️
+# VenomStrike by 5kidRo0t ver. 0.3 🏴‍☠️
 
 //////////////////////////////////////////////////////////////////
 
-La versión 0.2 trae mejoras y arregla problemas con respecto a la versión 0.1, ahora si no dispones del archivo full_sha256.txt el script te preguntará
-si quieres descargarlo, además he añadido una opción para actualizar la herramienta usando el script venom_update, ejemplo: *python3 venom_update.py*,
-aún tengo que testear que funcione bien por eso te recomiendo no usar el script venom_update.py en esta versión de la herramienta, seguiré trabajando en mejorar
-esta herramienta, gracias.
+La versión 0.3 ya está lista y trae nuevas mejoras como una renovación en el aspecto de la herramienta, también he implementado la descarga automática de hashes MD5
+que se incluirán además en los análisis para una mayor rigurosidad, decir también que ya podéis usar vuestras propias reglas yara tanto si están en .yar como .yara
+simplemente deben dejar sus reglas yara en la carpeta /modules/yar_rules/
 
-Version 0.2 brings improvements and fixes issues from version 0.1.
-Now, if the full_sha256.txt file is missing, the script will ask if you want to download it.
-I've also added an option to update the tool using the venom_update script, example: *python3 venom_update.py*
-However, I still need to test it thoroughly, so I recommend not using the venom_update.py script in this version of the tool.
-I’ll keep working to improve this project — thank you!
+Version 0.3 is now ready and includes new improvements such as a redesign of the tool’s appearance. I have also implemented automatic downloading of MD5 hashes, which will be included in the analyses for greater accuracy. Additionally, you can now use your own YARA rules, whether in .yar or .yara format — just place your YARA rules in the /modules/yar_rules/ folder.
+
+![Captura desde 2025-05-25 10-49-30](https://github.com/user-attachments/assets/7cbb0081-7b56-4e96-9f79-8d65865ece22)
 
 //////////////////////////////////////////////////////////////////
 
