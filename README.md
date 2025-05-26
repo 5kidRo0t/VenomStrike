@@ -4,12 +4,14 @@
 
 <br>
 
-# VenomStrike by 5kidRo0t ver. 0.5 🏴‍☠️
+# VenomStrike by 5kidRo0t ver. 1.0 🏴‍☠️
 
 //////////////////////////////////////////////////////////////////
 
 🇪🇸 [Español]
-La versión 0.5 ya está disponible.
+
+# La versión 1.0 ya está disponible.<img src="https://media.giphy.com/media/jvQdgWel96thK/giphy.gif?cid=ecf05e47tpp0fslmjz4wcqe4hwozctqiqd0p5s8r7h3xxwok&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="90" />
+</p>
 Ya no es obligatorio descargar la base de datos de hashes MD5 para usar la herramienta, aunque los hashes SHA256 siguen siendo necesarios para que el script funcione correctamente.
 
 La herramienta puede seguir actualizándose ejecutando el script venom_update.py, pero ahora también puedes actualizar las bases de datos de hashes SHA256 y MD5 usando el parámetro -update (ejemplo: python3 venomstrike.py -update).
@@ -33,7 +35,10 @@ Gracias por usar VenomStrike.
 ---
 
 🇬🇧 [English]
-Version 0.5 is now available.
+
+# Version 1.0 is now available. <img src="https://media.giphy.com/media/13xxoHrXk4Rrdm/giphy.gif?cid=ecf05e479weh4ruvl8qie683dkjostlruvsvcti52a9l1e37&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="90" />
+</p>
+
 Downloading the MD5 hashes is no longer mandatory to use the tool, although SHA256 hashes are still required for the script to function properly.
 
 The tool can still be updated by running the venom_update.py script, but now there's also an option to update both SHA256 and MD5 hash databases using the -update parameter (example: python3 venomstrike.py -update).
@@ -54,7 +59,7 @@ If you experience any issues while trying to run the script, please don’t hesi
 
 Thanks for using VenomStrike!
 
-![Captura desde 2025-05-25 10-49-30](https://github.com/user-attachments/assets/7cbb0081-7b56-4e96-9f79-8d65865ece22)
+![Captura desde 2025-05-26 20-25-46](https://github.com/user-attachments/assets/57392bbd-a2d9-436e-942f-305fcdefad92)
 
 //////////////////////////////////////////////////////////////////
 
