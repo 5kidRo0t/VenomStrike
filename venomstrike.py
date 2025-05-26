@@ -27,7 +27,7 @@ import io
 import argparse
 from io import BytesIO
 
-show_me = "▗▖  ▗▖▗▞▀▚▖▄▄▄▄   ▄▄▄  ▄▄▄▄   ▗▄▄▖ ■   ▄▄▄ ▄ █  ▄ ▗▞▀▚▖    \n▐▌  ▐▌▐▛▀▀▘█   █ █   █ █ █ █ ▐▌ ▗▄▟▙▄▖█    ▄ █▄▀  ▐▛▀▀▘    \n▐▌  ▐▌▝▚▄▄▖█   █ ▀▄▄▄▀ █   █  ▝▀▚▖▐▌  █    █ █ ▀▄ ▝▚▄▄▖    \n ▝▚▞▘                        ▗▄▄▞▘▐▌       █ █  █          \n                                  ▐▌                       \n----------------------------------------------------------\nVenomStrike - Malware Scanner by 5kidRo0t ver. 0.5\n----------------------------------------------------------\n"
+show_me = "▗▖  ▗▖▗▞▀▚▖▄▄▄▄   ▄▄▄  ▄▄▄▄   ▗▄▄▖ ■   ▄▄▄ ▄ █  ▄ ▗▞▀▚▖    \n▐▌  ▐▌▐▛▀▀▘█   █ █   █ █ █ █ ▐▌ ▗▄▟▙▄▖█    ▄ █▄▀  ▐▛▀▀▘    \n▐▌  ▐▌▝▚▄▄▖█   █ ▀▄▄▄▀ █   █  ▝▀▚▖▐▌  █    █ █ ▀▄ ▝▚▄▄▖    \n ▝▚▞▘                        ▗▄▄▞▘▐▌       █ █  █          \n                                  ▐▌                       \n----------------------------------------------------------\nVenomStrike - Malware Scanner by 5kidRo0t ver. 1.0\n----------------------------------------------------------\n"
 script = os.path.dirname(os.path.abspath(__file__))
 hashes_file = os.path.join(script, "modules/full_sha256.txt")
 hashes_file_2 = os.path.join(script, "modules/full_md5.txt")
@@ -44,7 +44,7 @@ class CustomArgumentParser(argparse.ArgumentParser):
 
 def parse_args():
     parser = CustomArgumentParser(description="VenomStrike - Malware Scanner")
-    parser.add_argument("file", nargs="?", help="Path to the file to scan")  # <-- faltaba una coma aquí
+    parser.add_argument("file", nargs="?", help="Path to the file to scan")
     parser.add_argument("-md5", action="store_true", help="Download and use optional MD5 hash check")
     parser.add_argument("-update", action="store_true", help="Force re-download of hash databases")
     return parser.parse_args()
@@ -117,6 +117,8 @@ def scan_with_yara_binary(yara_rules_folder, target_file):
                     matches.append((rule_file, result.stdout.strip()))
                 if result.stderr:
                     print(f"[!] Error in rule {rule_file}: {result.stderr.strip()}")
+                if result.returncode not in (0, 1):
+                    print(f"[!] YARA execution failed on rule {rule_file}. Code: {result.returncode}")
             except FileNotFoundError:
                 print("[!] YARA binary not found. Install it with 'sudo apt install yara'")
                 sys.exit(1)
@@ -149,7 +151,7 @@ def show_help():
 
 def show_help_2():
     print(f"Usage: python3 venomstrike.py [file path]\nExample: python3 venomstrike.py suspicious_file.exe")
-    sys.exit(0)
+    sys.exit(1)
 
 def calculate_sha256(path):
     sha256 = hashlib.sha256()
@@ -197,34 +199,37 @@ def main():
     use_md5 = args.md5
     force_update = args.update
 
-    if force_update and not file_path:
+    if force_update:
         for f in [hashes_file, hashes_file_2, md5_flag]:
             if os.path.exists(f):
                 os.remove(f)
         print("[*] Hash databases deleted for update.")
         download_and_extract_sha256(os.path.dirname(hashes_file))
-        download_and_extract_md5(os.path.dirname(hashes_file_2))
+        answer = input("Do you want to download the optional MD5 hash database? (y/n): ").strip().lower()
+        if answer == 'y':
+            download_and_extract_md5(os.path.dirname(hashes_file_2))
+        else:
+            with open(md5_flag, 'w') as f:
+                f.write("User Declined MD5 download.\n")
+            print("The file was not downloaded.")
+            sys.exit(0)
         sys.exit(0)
 
-    if use_md5 and not file_path:
-        download_and_extract_md5(os.path.dirname(hashes_file_2))
-        sys.exit(0)
+    if use_md5:
+        answer = input("Do you want to download the optional MD5 hash database? (y/n): ").strip().lower()
+        if answer == 'y':
+            download_and_extract_md5(os.path.dirname(hashes_file_2))
+        else:
+            print("The file was not downloaded.")
+            sys.exit(0)
 
     if not file_path:
         print("[Error] No file was provided.\n")
         show_help_2()
-        sys.exit(1)
 
     if not os.path.isfile(file_path):
         print(f"[Error] File '{file_path}' does not exist or was not found.\n")
         show_help_2()
-        sys.exit(1)
-
-    if force_update:
-        for f in [hashes_file, hashes_file_2, md5_flag]:
-            if os.path.exists(f):
-                os.remove(f)
-        print("[*] Hash databases and MD5 prompt flag deleted for update.")
 
     if not os.path.exists(hashes_file):
         download_and_extract_sha256(os.path.dirname(hashes_file))
