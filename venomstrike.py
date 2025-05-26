@@ -39,7 +39,7 @@ class CustomArgumentParser(argparse.ArgumentParser):
         print(show_me)
         print(f"[ERROR] {message}\n")
         self.print_help()
-        print("\nExaple: python3 venomstrike.py suspicious.exe")
+        print("\nExample: python3 venomstrike.py suspicious.exe")
         sys.exit(2)
 
 def parse_args():
