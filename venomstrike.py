@@ -27,7 +27,7 @@ import io
 import argparse
 from io import BytesIO
 
-show_me = "▗▖  ▗▖▗▞▀▚▖▄▄▄▄   ▄▄▄  ▄▄▄▄   ▗▄▄▖ ■   ▄▄▄ ▄ █  ▄ ▗▞▀▚▖    \n▐▌  ▐▌▐▛▀▀▘█   █ █   █ █ █ █ ▐▌ ▗▄▟▙▄▖█    ▄ █▄▀  ▐▛▀▀▘    \n▐▌  ▐▌▝▚▄▄▖█   █ ▀▄▄▄▀ █   █  ▝▀▚▖▐▌  █    █ █ ▀▄ ▝▚▄▄▖    \n ▝▚▞▘                        ▗▄▄▞▘▐▌       █ █  █          \n                                  ▐▌                       \n----------------------------------------------------------\nVenomStrike - Malware Scanner by 5kidRo0t ver. 1.0\n----------------------------------------------------------\n"
+show_me = "▗▖  ▗▖▗▞▀▚▖▄▄▄▄   ▄▄▄  ▄▄▄▄   ▗▄▄▖ ■   ▄▄▄ ▄ █  ▄ ▗▞▀▚▖    \n▐▌  ▐▌▐▛▀▀▘█   █ █   █ █ █ █ ▐▌ ▗▄▟▙▄▖█    ▄ █▄▀  ▐▛▀▀▘    \n▐▌  ▐▌▝▚▄▄▖█   █ ▀▄▄▄▀ █   █  ▝▀▚▖▐▌  █    █ █ ▀▄ ▝▚▄▄▖    \n ▝▚▞▘                        ▗▄▄▞▘▐▌       █ █  █          \n                                  ▐▌                       \n----------------------------------------------------------\nVenomStrike - Malware Scanner by 5kidRo0t ver. 1.1\n----------------------------------------------------------\n"
 script = os.path.dirname(os.path.abspath(__file__))
 hashes_file = os.path.join(script, "modules/full_sha256.txt")
 hashes_file_2 = os.path.join(script, "modules/full_md5.txt")
@@ -76,9 +76,17 @@ def download_and_extract_sha256(dest_folder):
     url = "https://bazaar.abuse.ch/export/txt/sha256/full/"
     print("The full_sha256.txt file was not found.")
     answer = input("Do you want to download it now so the tool can work properly? (y/n): ").strip().lower()
+
+    backup_path = os.path.join(dest_folder, "backup_sha256.txt")
+
     if answer != 'y':
-        print("The file was not downloaded. The tool will not work properly.")
-        sys.exit(1)
+        print("The file was not downloaded.")
+        if os.path.exists(backup_path):
+            print("[+] Using local backup file (backup_sha256.txt).")
+            return
+        else:
+            print("[!] No backup file found. The tool cannot continue without hashes.")
+            sys.exit(1)
     stop_event = threading.Event()
     loader_thread = threading.Thread(target=downloading_animation, args=(stop_event,))
     loader_thread.start()
@@ -91,14 +99,33 @@ def download_and_extract_sha256(dest_folder):
         stop_event.set()
         loader_thread.join()
         print(f"File downloaded and extracted to {dest_folder}\n ")
-        time.sleep(5)
+        time.sleep(2)
         clean_screen()
         print(show_me)
+        md5_path = os.path.join(dest_folder, "full_md5.txt")
+        if not os.path.exists(md5_path):
+            md5_answer = input("Do you also want to download the optional MD5 hash database? (y/n): ").strip().lower()
+            if md5_answer == 'y':
+                download_and_extract_md5(dest_folder)
+            else:
+                with open(md5_flag, 'w') as f:
+                    f.write("User Declined MD5 download.\n")
+                print("The MD5 database was not downloaded.\n")
+
     except Exception as e:
         stop_event.set()
         loader_thread.join()
         print(f"[Error] Could not download or extract the file: {e}")
-        sys.exit(1)
+        if os.path.exists(backup_path):
+            print("[+] Using local backup file (backup_sha256.txt).")
+            time.sleep(2)
+            clean_screen()
+            print(show_me)
+            return
+        else:
+            print("[!] No backup file found. The tool cannot continue without hashes.")
+            sys.exit(1)
+
 
 
 def scan_with_yara_binary(yara_rules_folder, target_file):
@@ -176,13 +203,18 @@ def calculate_md5(path):
     return md5.hexdigest()
 
 def load_hashes(path):
-    try:
+    backup_path = os.path.join(os.path.dirname(path), "backup_sha256.txt")
+    if os.path.exists(path):
         with open(path, 'r') as f:
             return set(line.strip().lower() for line in f if line.strip())
-    except IOError as e:
-        download_and_extract_sha256(os.path.dirname(path))
-        with open(path, 'r') as f:
+    elif os.path.exists(backup_path):
+        with open(backup_path, 'r') as f:
             return set(line.strip().lower() for line in f if line.strip())
+    else:
+        print("[!] No hash database (full_sha256.txt or backup_sha256.txt) available.")
+        sys.exit(1)
+
+
 
 def load_hashes_2(path):
     try:
@@ -198,21 +230,21 @@ def main():
     file_path = args.file
     use_md5 = args.md5
     force_update = args.update
-
     if force_update:
         for f in [hashes_file, hashes_file_2, md5_flag]:
             if os.path.exists(f):
                 os.remove(f)
+
         print("[*] Hash databases deleted for update.")
         download_and_extract_sha256(os.path.dirname(hashes_file))
         answer = input("Do you want to download the optional MD5 hash database? (y/n): ").strip().lower()
+
         if answer == 'y':
             download_and_extract_md5(os.path.dirname(hashes_file_2))
         else:
             with open(md5_flag, 'w') as f:
                 f.write("User Declined MD5 download.\n")
             print("The file was not downloaded.")
-            sys.exit(0)
         sys.exit(0)
 
     if use_md5:
@@ -221,37 +253,28 @@ def main():
             download_and_extract_md5(os.path.dirname(hashes_file_2))
         else:
             print("The file was not downloaded.")
-            sys.exit(0)
+        sys.exit(0)
 
     if not file_path:
         print("[Error] No file was provided.\n")
         show_help_2()
-
     if not os.path.isfile(file_path):
         print(f"[Error] File '{file_path}' does not exist or was not found.\n")
         show_help_2()
-
     if not os.path.exists(hashes_file):
         download_and_extract_sha256(os.path.dirname(hashes_file))
+
     malicious_hashes = load_hashes(hashes_file)
     file_hash = calculate_sha256(file_path)
 
-    if not os.path.exists(hashes_file_2) and not use_md5 and not os.path.exists(md5_flag):
-        print("The full_md5.txt file was not found.")
-        answer = input("Do you want to download the optional MD5 hash database? (y/n): ").strip().lower()
-        if answer == 'y':
-            download_and_extract_md5(os.path.dirname(hashes_file_2))
-        else:
-            with open(md5_flag, 'w') as f:
-                f.write("User Declined MD5 download.\n")
-
     file_hash_md5 = None
     malicious_hashes_md5 = set()
+
     if os.path.exists(hashes_file_2):
         file_hash_md5 = calculate_md5(file_path)
         malicious_hashes_md5 = load_hashes_2(hashes_file_2)
-
     print(f"[*] SHA-256: {file_hash}")
+
     if file_hash_md5:
         print(f"[*] MD5: {file_hash_md5}")
     else:
@@ -276,6 +299,7 @@ def main():
             print(f"[!] Match found by MD5 hash: {file_hash_md5}")
         else:
             print(f"[+] No match found by MD5")
+
 
 if __name__ == "__main__":
     clean_screen()
