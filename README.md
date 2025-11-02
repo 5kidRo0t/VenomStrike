@@ -4,7 +4,7 @@
 
 <br>
 
-# VenomStrike by 5kidRo0t ver. 1.0 🏴‍☠️
+# VenomStrike by 5kidRo0t ver. 1.1 🏴‍☠️
 
 ## 🇪🇸 Descripción: 
 
@@ -38,8 +38,13 @@ This tool is ideal for malware analysts, cybersecurity researchers, and enthusia
 
 ## 🇪🇸 Información sobre la última actualización:
 
-### La versión 1.0 ya está disponible.<img src="https://media.giphy.com/media/jvQdgWel96thK/giphy.gif?cid=ecf05e47tpp0fslmjz4wcqe4hwozctqiqd0p5s8r7h3xxwok&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="90" />
+### La versión 1.1 ya está disponible.<img src="https://media.giphy.com/media/jvQdgWel96thK/giphy.gif?cid=ecf05e47tpp0fslmjz4wcqe4hwozctqiqd0p5s8r7h3xxwok&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="90" />
 </p>
+
+Se ha eliminado la dependencia que VenomStrike tenía con MalwareBazaar, ahora la herramienta funciona sin necesidad de descargar las bases de datos de MalwareBazaar, esto se ha realizado
+para que la herramienta siga siendo funcional en el caso de que algún día los servidores de MalwareBazaar dejen de ofrecer sus bases de datos de manera pública o cambien sus dominios. Aunque en el 
+caso de no usar las bases de datos de MalwareBazaar deberás usar tus propias bases de datos SHA-256 o MD5 si quieres que la herramienta tenga más alcance de análisis. Para ello deberás guardar tus bases
+de datos SHA-256 y/o MD5 con los nombres correspondientes para que la herramienta pueda usarlos dentro de la carpeta "modules", los nombres que debes usar son **full_sha256.txt** y **full_md5.txt**, la estructura que se debe usar tiene que ser similar a la que encontrarás en el archivo **backup_sha256.txt** el cual se usará en caso de que no existan las bases de datos antes mencionadas.
 
 La herramienta puede seguir actualizándose ejecutando el script venom_update.py, pero ahora puedes actualizar únicamente las bases de datos de hashes SHA256 y MD5 usando el parámetro -update (ejemplo:
 python3 venomstrike.py -update).
@@ -50,22 +55,17 @@ python3 venomstrike.py -md5).
 Si tienes cualquier duda o problema, no dudes en escribirme a:
 📩 skidoroot@gmail.com
 
-Por ahora, la herramienta funciona correctamente.
-En caso de que ocurra un problema grave, puedes solucionarlo ejecutando el script venom_update.py (ejemplo:
-python3 venom_update.py), el cual reemplazará todos los archivos descargándolos directamente desde mi repositorio oficial.
-Este proceso es seguro y puede ayudarte a recuperar la herramienta si sufre un fallo.
-
-Aún no he probado VenomStrike en Windows, macOS ni en distribuciones GNU/Linux que no estén basadas en Debian.
-Si tienes inconvenientes al ejecutar el script, por favor contáctame.
-
 Gracias por usar VenomStrike.
 
 ---
 
 ## 🇬🇧 Information about the latest update:
 
-### Version 1.0 is now available. <img src="https://media.giphy.com/media/13xxoHrXk4Rrdm/giphy.gif?cid=ecf05e479weh4ruvl8qie683dkjostlruvsvcti52a9l1e37&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="90" />
+### Version 1.1 is now available. <img src="https://media.giphy.com/media/13xxoHrXk4Rrdm/giphy.gif?cid=ecf05e479weh4ruvl8qie683dkjostlruvsvcti52a9l1e37&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="90" />
 </p>
+
+The dependency that VenomStrike had on MalwareBazaar has been removed. The tool now works without needing to download MalwareBazaar’s databases. This change was made to ensure that the tool remains functional in case MalwareBazaar’s servers ever stop offering their databases publicly or change their domains.
+However, if you choose not to use MalwareBazaar’s databases, you’ll need to use your own SHA-256 or MD5 databases if you want the tool to have broader analysis capabilities. To do this, you must save your SHA-256 and/or MD5 databases with the corresponding names so that the tool can use them inside the "modules" folder. The names you should use are **full_sha256.txt** and **full_md5.txt**. The structure should be similar to the one found in the **backup_sha256.txt** file, which will be used in case the aforementioned databases are not present.
 
 The tool can still be updated by running the venom_update.py script, but now you can update only the SHA256 and MD5 hash databases using the -update parameter (example:
 python3 venomstrike.py -update).
@@ -75,14 +75,6 @@ python3 venomstrike.py -md5).
 
 If you have any questions or issues, feel free to contact me at:
 📩 skidoroot@gmail.com
-
-For now, the tool works correctly.
-If a serious problem occurs, you can fix it by running the venom_update.py script (example:
-python3 venom_update.py), which will replace all files by downloading them directly from my official repository.
-This process is safe and can help you recover the tool if it fails.
-
-I have not yet tested VenomStrike on Windows, macOS, or GNU/Linux distributions that are not Debian-based.
-If you have trouble running the script, please contact me.
 
 Thank you for using VenomStrike.
 
