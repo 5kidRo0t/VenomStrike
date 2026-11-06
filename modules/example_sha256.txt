@@ -1,12 +1,3 @@
-################################################################
-# MalwareBazaar recent malware samples (SHA256 hashes)         #
-# Last updated: 2025-11-02 18:03:21 UTC                        #
-#                                                              #
-# Terms Of Use: https://bazaar.abuse.ch/faq/#tos               #
-# For questions please contact bazaar [at] abuse.ch            #
-################################################################
-#
-# sha256_hash
 e143e72541d710a377db83b1a71968648e8ed280ab9a5ac02cd2678963001fef
 d15d2eb84261207cd71ae7acceb5534fcc2e520e656549d9c38f6b022f9f61e7
 458acdf5e4f42250d95ee2dd701959f6a6c1a225e67a2a2f2b19b60c888e377e
@@ -705,4 +696,3 @@ ad53c5f0fd3ea2f8d3520c6475365b54c1ba7bafb53ae4e1fd7e0cfa9cc4aca8
 abba78a4679499caf6bb0f1d17dd8816f1b39655e09a2be770a92d54dc4072be
 8238e62e76e34c889a142a6218414b69af89fcf672d44d09f6b9a6dd67572664
 8f62d49249196e42f3a1899f22aa26642305f8ed0708f2820f6b06aaf6ca3c7f
-# Number of entries: 698
